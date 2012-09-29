@@ -15,7 +15,7 @@ module Trade
 
     def initialize
       self.credits = 100
-      self.items = Array.new
+      self.items = Array.new # AK prefer the empty array literal `[]`
     end
 
     #creates an item, with a given name and price.
@@ -28,14 +28,14 @@ module Trade
     #adds the created item to the list of items.
     # @param [Item] item
     def add(item)
-      items.push(item)
+      items.push(item) # AK you could also use `<<`
     end
 
     #activated the item, so that it is able to be sold.
     # @param [Item] item
     def activate(item)
-      if items.any? {|x| x == item}
-        item.activate
+      if items.any? {|x| x == item} # AK the method for this is: `items.include? item`
+        item.activate               # Yeah, I have to look that up every time I haven't used ruby in a week, the name is not too great.
       end
     end
 
@@ -52,7 +52,7 @@ module Trade
     #of items.
     # @param [Item] item
     def buy(item)
-      if item.active == true && self.credits >= item.price && item.owner != self
+      if item.active == true && self.credits >= item.price && item.owner != self # AK factor this condition into a method, e.g. `can_buy? item`. also you don't need to test equality for bools
         seller = item.owner
         seller.sell(item)
         item.owner = self
@@ -67,15 +67,16 @@ module Trade
     # @param [Item] item
     def sell(item)
       self.credits += item.price
-      items.delete_if {|x| x == item}
+      items.delete_if {|x| x == item} # AK `items.delete(item)`
     end
 
     def list_of_active_items
+      # AK maybe not the best name for a method that returns a string
       active_items = items.clone
-      active_items.delete_if {|x| !x.active}
+      active_items.delete_if {|x| !x.active} # AK active_items = items.select {|i| i.active}
       string = ""
       active_items.each {|x| string += x.to_s + " -- "}
-      "#{string}"
+      "#{string}" # "#{active_items.join(' -- ')}"
     end
 
     def list_of_all_items
