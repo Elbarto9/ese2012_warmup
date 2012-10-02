@@ -70,6 +70,7 @@ module Trade
       items.delete_if {|x| x == item} # AK `items.delete(item)`
     end
 
+    # AK these do not return a list, but the names state that!
     def list_of_active_items
       # AK maybe not the best name for a method that returns a string
       active_items = items.clone
